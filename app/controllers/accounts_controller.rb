@@ -1,9 +1,10 @@
 class AccountsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_account, only: [:show, :update, :destroy]
 
   # GET /accounts
   def index
-    @accounts = Account.all
+    @accounts = current_user.accounts
 
     render json: @accounts
   end
@@ -15,7 +16,7 @@ class AccountsController < ApplicationController
 
   # POST /accounts
   def create
-    @account = Account.new(account_params)
+    @account = current_user.accounts.build(account_params)
 
     if @account.save
       render json: @account, status: :created, location: @account
@@ -41,7 +42,7 @@ class AccountsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_account
-      @account = Account.find(params[:id])
+      @account = current_user.accounts.find(params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
