@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
          #:recoverable, :rememberable, :validatable
   include DeviseTokenAuth::Concerns::User
   has_many :accounts
+  has_many :transactions
 
   def as_json(options={:except => [:created_at, :updated_at, :id, :provider, :email, :uid, :allow_password_change, :name, :image]})
     super(options.merge!(methods: [:accounts]))

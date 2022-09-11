@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sender_code: MyString
+  receiver_code: MyString
+  status: 1
+  amount: 9.99
+  concept: MyString
+  meta_data: MyText
+
+two:
+  sender_code: MyString
+  receiver_code: MyString
+  status: 1
+  amount: 9.99
+  concept: MyString
+  meta_data: MyText
