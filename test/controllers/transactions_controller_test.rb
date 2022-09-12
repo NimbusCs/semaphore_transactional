@@ -1,36 +1,26 @@
 require 'test_helper'
-
+include AuthorizationHelper
 class TransactionsControllerTest < ActionDispatch::IntegrationTest
   setup do
+    test_user = { email: 'user@test.com', password: 'testuser' }
+    sign_up(test_user)
+    @auth_tokens = auth_tokens_for_user(test_user)
     @transaction = transactions(:one)
   end
 
   test "should get index" do
-    get transactions_url, as: :json
+    get transactions_url, headers: @auth_tokens, as: :json
     assert_response :success
   end
-
-  test "should create transaction" do
-    assert_difference('Transaction.count') do
-      post transactions_url, params: { transaction: { amount: @transaction.amount, concept: @transaction.concept, meta_data: @transaction.meta_data, receiver_code: @transaction.receiver_code, sender_code: @transaction.sender_code, status: @transaction.status } }, as: :json
-    end
-
-    assert_response 201
-  end
-
+  
   test "should show transaction" do
-    get transaction_url(@transaction), as: :json
+    get transaction_url(@transaction.tx_id), headers: @auth_tokens, as: :json
     assert_response :success
-  end
-
-  test "should update transaction" do
-    patch transaction_url(@transaction), params: { transaction: { amount: @transaction.amount, concept: @transaction.concept, meta_data: @transaction.meta_data, receiver_code: @transaction.receiver_code, sender_code: @transaction.sender_code, status: @transaction.status } }, as: :json
-    assert_response 200
   end
 
   test "should destroy transaction" do
     assert_difference('Transaction.count', -1) do
-      delete transaction_url(@transaction), as: :json
+      delete transaction_url(@transaction.tx_id), headers: @auth_tokens, as: :json
     end
 
     assert_response 204

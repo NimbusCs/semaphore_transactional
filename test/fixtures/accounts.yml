@@ -1,13 +1,19 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
+  user_id: 980190962
+  name: Test1
+  code: 207C836553A2F6B130074FAEBDB839FE
   type_a: 1
-  enabled: false
-  meta_data: MyText
+  balance: 0
+  enabled: true
+  meta_data: null
 
 two:
-  name: MyString
+  user_id: 298486374
+  name: Test1
+  code: 267AE1DEF640B3A2DCC0B82A6AE255B5
   type_a: 1
-  enabled: false
-  meta_data: MyText
+  balance: 0
+  enabled: true
+  meta_data: null

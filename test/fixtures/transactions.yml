@@ -1,17 +1,21 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  sender_code: MyString
-  receiver_code: MyString
-  status: 1
+  user_id: 980190962
+  tx_id: TX-115680E9F1-10092022
+  sender_code: 207C836553A2F6B130074FAEBDB839FE
+  receiver_code: 267AE1DEF640B3A2DCC0B82A6AE255B5
+  status: 0
   amount: 9.99
-  concept: MyString
-  meta_data: MyText
-
+  concept: Prueb111
+  meta_data: null
+  
 two:
-  sender_code: MyString
-  receiver_code: MyString
-  status: 1
-  amount: 9.99
-  concept: MyString
-  meta_data: MyText
+  user_id: 298486374
+  tx_id: TX-AE42A50708-10092022
+  sender_code: 267AE1DEF640B3A2DCC0B82A6AE255B5
+  receiver_code: 207C836553A2F6B130074FAEBDB839FE
+  status: 0
+  amount: 10.99
+  concept: Prueb222
+  meta_data: null
