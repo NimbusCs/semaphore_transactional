@@ -1,9 +1,11 @@
 class TransactionsController < ApplicationController
+  include TransactionsHelper
+  before_action :authenticate_user!
   before_action :set_transaction, only: [:show, :update, :destroy]
 
   # GET /transactions
   def index
-    @transactions = Transaction.all
+    @transactions = current_user.transactions
 
     render json: @transactions
   end
@@ -15,12 +17,23 @@ class TransactionsController < ApplicationController
 
   # POST /transactions
   def create
-    @transaction = Transaction.new(transaction_params)
-
-    if @transaction.save
-      render json: @transaction, status: :created, location: @transaction
+    msg = { errors: {} }
+    done = false
+    begin
+      validate = validate_transaction(current_user, params[:transaction])
+      if validate[:done]
+        done = true
+      else
+        msg[:errors] = validate[:errors]
+      end
+    end
+    if done
+      @transaction = current_user.transactions.build(transaction_params)
+      if @transaction.save
+        render json: @transaction, status: :created, location: @transaction
+      end
     else
-      render json: @transaction.errors, status: :unprocessable_entity
+      render json: msg, status: :unprocessable_entity
     end
   end
 
@@ -41,11 +54,12 @@ class TransactionsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_transaction
-      @transaction = Transaction.find(params[:id])
+      @transaction = current_user.transactions.find_by(tx_id: params[:id])
     end
 
     # Only allow a trusted parameter "white list" through.
     def transaction_params
       params.require(:transaction).permit(:sender_code, :receiver_code, :status, :amount, :concept, :meta_data)
     end
+    
 end
