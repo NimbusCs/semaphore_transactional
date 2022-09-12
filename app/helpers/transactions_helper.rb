@@ -1,12 +1,12 @@
 module TransactionsHelper
     include AccountsHelper
 
-    def check_codes(user, codes)
+    def check_codes(request, codes)
         response = { done: false, errors: { } }
         if codes[:sender].present? && codes[:receiver].present?
-            sender = check_account(codes[:sender], user)
+            sender = check_account(codes[:sender], request[:user])
             if sender[:exist] && check_account(codes[:receiver])[:exist]
-                if check_balance(sender[:balance])
+                if check_balance(sender[:balance],request[:amount])
                     response = true
                 else
                     response[:errors] = { 'Accounts' => 'Insufficient balance' }
@@ -20,7 +20,7 @@ module TransactionsHelper
 
     def check_amount(amount)
         response = false
-        if amount.is_a?(Number) && amount.to_d > 0
+        if amount.is_a?(Numeric) && amount.to_d > 0
             response = true
         end
         return response
@@ -28,8 +28,8 @@ module TransactionsHelper
 
     def validate_transaction(user, params)
         response = { done: false, errors: {} }
-        check = check_codes(user, { sender: params[:sender_code],  receiver: params[:receiver_code] })
-        if check[:done]
+        check = check_codes({user: user, amount: params[:amount]}, { sender: params[:sender_code],  receiver: params[:receiver_code] })
+        if check
             if check_amount(params[:amount])
                 response[:done] = true
             else
